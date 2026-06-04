@@ -35,7 +35,9 @@ gameCards = [["13",12,12], #Has unique among 13
 
 masterList = []
 currentHand = []
-heuristicsData = []
+heuristicsData = [] 
+strategyData = []
+
 choice = ""
 score = 0
 roundNum = 1
@@ -201,21 +203,21 @@ def Guesstimator(pHandScore):
     return(estimation)
 
 print("Round " + str(roundNum))
-while score < 2000:
+while score < 200:
     
-    print(ShowProbBust()*100)
+    #print(ShowProbBust()*100)
+    print(Guesstimator(CheckHandScore(1)))
     #choice = input("Please Select: Flip,Bank,ProbBust,ReHand,ReDeal,CheckScore,CheckHand")
-    if count < 100:
-        count += 1
+    if CheckHandScore() < 27:
         choice = "Flip"
     else:
-        choice = input(str(count) + " are flipped; select option: ")
+        choice = "Bank"
     if choice == "Flip":
         if len(masterList) == 0 :
             ReshuffleDeck(currentHand)
             print("Deck Reshuffled!")
             roundNum = 1
-        print(ShowProbBust()*100)
+        #print(ShowProbBust()*100)
         FlipCard()
         cumulativeProb *= 1 - ShowProbBust()
         
@@ -223,18 +225,20 @@ while score < 2000:
             roundNum += 1
             ResetHand()
             cumulativeProb = 1.0
+            strategyData.append(0)
         if CheckFlip7():
             roundNum += 1
+            strategyData.append(CheckHandScore())
             Bank(15)
             ResetHand()
             cumulativeProb = 1.0
-        if len(currentHand) != 0   :
+        #if len(currentHand) != 0   :
             #print("Your guesstimated chance of busting are: " + str(CheckHandScore()) + "%")
-            print("Your actual chances of busting are: " + str(ShowProbBust()*100) + "%")
-            print("Your old differential is: " + str(CheckHandScore(1) - (ShowProbBust()*100)) + "%")
+            #print("Your actual chances of busting are: " + str(ShowProbBust()*100) + "%")
+            #print("Your old differential is: " + str(CheckHandScore(1) - (ShowProbBust()*100)) + "%")
             #print("My new guestimation is " + str(Guesstimator(CheckHandScore(1))))
-            print("Your new differential is: " + str(Guesstimator(CheckHandScore(1)) - (ShowProbBust()*100)) + "%")
-            heuristicsData.append(Guesstimator(CheckHandScore(1)) - (ShowProbBust()*100))
+            #print("Your new differential is: " + str(Guesstimator(CheckHandScore(1)) - (ShowProbBust()*100)) + "%")
+            #heuristicsData.append(Guesstimator(CheckHandScore(1)) - (ShowProbBust()*100))
             
         #else:
         #    roundNum += 1
@@ -244,6 +248,7 @@ while score < 2000:
        
     elif choice =="Bank":
         roundNum += 1
+        strategyData.append(CheckHandScore())
         Bank()
         ResetHand()
         cumulativeProb = 1.0
@@ -261,4 +266,6 @@ while score < 2000:
     elif choice == "ShowData" :
         for i in range(0,len(heuristicsData)):
             print(heuristicsData[i])
-    
+            
+for i in range(0,len(strategyData)) :   
+    print(strategyData[i])
