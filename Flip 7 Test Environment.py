@@ -39,7 +39,7 @@ heuristicsData = []
 strategyData = []
 
 tempList = []
-tempString = ""
+tempString = []
 
 choice = ""
 score = 0
@@ -207,13 +207,15 @@ def Guesstimator(pHandScore):
     return(estimation)
 
 #print("Round " + str(roundNum))
-while count < 100:
+while count < 1000000:
     while score < 200:
         
         #print(ShowProbBust()*100)
         #print(Guesstimator(CheckHandScore(1)))
         #choice = input("Please Select: Flip,Bank,ProbBust,ReHand,ReDeal,CheckScore,CheckHand")
-        if CheckHandScore() < 25:
+        if (score + CheckHandScore()) >= 200 : #prevents suboptimal gaemplay
+            choice = "Bank"
+        elif CheckHandScore() < 23: #condition I change for tests :)
             choice = "Flip"
         else:
             choice = "Bank"
@@ -272,13 +274,13 @@ while count < 100:
             for i in range(0,len(heuristicsData)):
                 print(heuristicsData[i])
      
-    tempString = ""
+    tempString = []
     for i in range(0,len(strategyData)) :
-        tempString = tempString + str(strategyData[i]) + " "
+        tempString.append(strategyData[i])
     tempList.append(tempString)
     
     strategyData = []
-    #tempString = []
+    tempString = []
     
     score = 0
     count += 1
@@ -294,4 +296,46 @@ tempAverageScore = 0
 tempResultsList = []
 tempResultsSubList = []
 for i in range(0,len(tempList)):
-    print(tempList[i])
+    
+    tempTotal = 0
+    tempRoundCount = 0
+    tempBustCount = 0
+    tempSuccessCount = 0
+    tempAverageScore = 0
+    tempResultsSubList = []
+    
+    for j in range(0, len(tempList[i])):
+        tempTotal += tempList[i][j]
+        tempRoundCount += 1
+        if tempList[i][j] != 0 :
+            tempSuccessCount += 1
+        else:
+            tempBustCount += 1
+    tempAverageScore = tempTotal / tempSuccessCount
+    
+    tempResultsSubList.append(tempTotal)
+    tempResultsSubList.append(tempRoundCount)
+    tempResultsSubList.append(tempBustCount)
+    tempResultsSubList.append(tempSuccessCount)
+    tempResultsSubList.append(tempAverageScore)
+    
+    tempResultsList.append(tempResultsSubList)
+    
+tempTotal = 0
+tempRoundCount = 0
+tempBustCount = 0
+tempSuccessCount = 0
+tempAverageScore = 0
+
+for i in range(0,len(tempResultsList)):
+    tempTotal += tempResultsList[i][0]
+    tempRoundCount += tempResultsList[i][1]
+    tempBustCount += tempResultsList[i][2]
+    tempSuccessCount += tempResultsList[i][3]
+    tempAverageScore += tempResultsList[i][4]
+    
+print("Your Average Total Score is: " + str(tempTotal / 1000000))
+print("Your Average Round Count is: " + str(tempRoundCount / 1000000))
+print("Your Average Bust Count is: " + str(tempBustCount / 1000000))
+print("Your Average Success Count is: " + str(tempSuccessCount / 1000000))
+print("Your Average Score per Round is: " + str(tempAverageScore / 1000000))
