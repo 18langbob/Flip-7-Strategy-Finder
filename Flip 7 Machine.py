@@ -5,13 +5,13 @@ import random
 #There also 3 unique num cards: Lucky 13, Unlucky 7, The Zero
 #2d array to store (name) and (how many?) and (how many left?)
 
-gameCards = [["13",12,12], #Has unique among 13
+gameCards = [["13",12,12], #Has total of 12 since there is a special 13th card counted seperately
              ["12",12,12],
              ["11",11,11],
              ["10",10,10],
              ["9",9,9],
              ["8",8,8],
-             ["7",6,6], #Has unique among 7
+             ["7",6,6], #Has total of 12 since there is a special 13th card counted seperately
              ["6",6,6],
              ["5",5,5],
              ["4",4,4],
@@ -20,21 +20,21 @@ gameCards = [["13",12,12], #Has unique among 13
              ["1",1,0],
              ["The 0",1,1], 
              ["Lucky 13",1,1],
-             ["Unlucky 7",1,1]]
-             #["Discard",2,2], #Removed for testing purposes, should be re-added for gameplay
-             #["Flip 4",2,2],
-             #["Swap",2,2],
-             #["Just One More",2,2],
-             #["Steal",2,2],
-             #["-2",1,1],
-             #["-4",1,1],
-             #["-6",1,1],
-             #["-8",1,1],
-             #["-10",1,1],
-             #["/2",1,1]] 
+             ["Unlucky 7",1,1],
+             ["Discard",2,2], 
+             ["Flip 4",2,2],
+             ["Swap",2,2],
+             ["Just One More",2,2],
+             ["Steal",2,2],
+             ["-2",1,1],
+             ["-4",1,1],
+             ["-6",1,1],
+             ["-8",1,1],
+             ["-10",1,1],
+             ["/2",1,1]] 
 
 masterList = []
-currentHand = ["12"]
+currentHand = []
 choice = ""
 score = 0
 roundNum = 1
@@ -173,10 +173,10 @@ def CheckHandScore(pBonus=0):
             print("Banked Nothing!")
             total = 0
         else:
-            print("You have " + str(addToScore+pBonus)+" in your hand")
+            print("You have " + str(addToScore+pBonus)+" points in your hand")
             total = addToScore+pBonus
     else:
-        print("You have " + str(addToScore+pBonus)+" in your hand")
+        print("You have " + str(addToScore+pBonus)+" points in your hand")
         total = addToScore+pBonus
     return(total)
  
@@ -185,8 +185,8 @@ def CheckHandScore(pBonus=0):
  
 print("Round " + str(roundNum))
 while True:
-    cumulativeProb *= 1 - showProbBust()
-    print(cumulativeProb*100)
+    #cumulativeProb *= 1 - showProbBust()
+    #print(cumulativeProb*100)
     CheckHandScore()
     choice = input("Please Select: Flip,Bank,ProbBust,ReHand,ReDeal,CheckScore,CheckHand,CheckHandScore")
     if choice == "Flip":

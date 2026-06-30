@@ -46,6 +46,7 @@ score = 0
 roundNum = 1
 cumulativeProb = 1.0
 count = 0
+trials = 100
 
 for i in range(0,len(gameCards)):
     for j in range(0,gameCards[i][1]):
@@ -207,15 +208,15 @@ def Guesstimator(pHandScore):
     return(estimation)
 
 #print("Round " + str(roundNum))
-while count < 1000000:
+while count < trials: #number of instances of the game being run
     while score < 200:
         
         #print(ShowProbBust()*100)
         #print(Guesstimator(CheckHandScore(1)))
         #choice = input("Please Select: Flip,Bank,ProbBust,ReHand,ReDeal,CheckScore,CheckHand")
-        if (score + CheckHandScore()) >= 200 : #prevents suboptimal gaemplay
+        if (score + CheckHandScore()) >= 200 : #prevents suboptimal gameplay
             choice = "Bank"
-        elif CheckHandScore() < 23: #condition I change for tests :)
+        elif CheckHandScore() < 32: #condition I change for tests :)
             choice = "Flip"
         else:
             choice = "Bank"
@@ -334,8 +335,14 @@ for i in range(0,len(tempResultsList)):
     tempSuccessCount += tempResultsList[i][3]
     tempAverageScore += tempResultsList[i][4]
     
-print("Your Average Total Score is: " + str(tempTotal / 1000000))
-print("Your Average Round Count is: " + str(tempRoundCount / 1000000))
-print("Your Average Bust Count is: " + str(tempBustCount / 1000000))
-print("Your Average Success Count is: " + str(tempSuccessCount / 1000000))
-print("Your Average Score per Round is: " + str(tempAverageScore / 1000000))
+print("Your Average Total Score is: " + str(tempTotal / trials))
+print("Your Average Round Count is: " + str(tempRoundCount / trials))
+print("Your Average Bust Count is: " + str(tempBustCount / trials))
+print("Your Average Success Count is: " + str(tempSuccessCount / trials))
+print("Your Average Score per Round is: " + str(tempAverageScore / trials))
+
+#Your Average Total Score is: 204.770512
+#Your Average Round Count is: 10.394026
+#Your Average Bust Count is: 4.468533
+#Your Average Success Count is: 5.925493
+#Your Average Score per Round is: 34.65341922139509
